@@ -186,3 +186,33 @@ footer nav ul {
 	margin: 2em
 }
 
+
+/**/
+.filter {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 15px;
+}
+
+.filter__item {
+	color: #1D6154;
+	border-radius: 60px;
+	border: 1px solid;
+	padding: 10px 20px;
+	margin: 10px 10px;
+}
+
+.filter__item:hover {
+	color: white;
+	background-color: #1D6154;
+	cursor: pointer;
+}
+
+.filter__item--selected {
+	color: white;
+	background-color: #1D6154;
+}
+
+.hidden {
+	display: none;
+}
