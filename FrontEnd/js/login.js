@@ -9,29 +9,10 @@ function setCookie(cname, cvalue, exdays) {
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
-function getCookie(cname) {
-  let name = cname + "=";
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let ca = decodedCookie.split(';');
-  for(let i = 0; i <ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
-}
-
-let performPost = async (path, data) => {
+let performPost = async (path, headers = {}, data) => {
     let response = await fetch(baseUrl + path, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
+        headers: headers,
         body: JSON.stringify(data)
     });
     if (response.ok) {
@@ -54,8 +35,12 @@ document.getElementById('send-form').addEventListener('click', e => {
         password: document.getElementById('password').value
     }
   if (isEmailValid(postData.email)) {
-      document.getElementById('email-error').classList.add('hidden');
-    performPost('/users/login', postData).then(data => {
+    document.getElementById('email-error').classList.add('hidden');
+    let headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }
+    performPost('/users/login', headers, postData).then(data => {
       window.location.href = basePath + '/index.html';
       setCookie('token', data.token, 1);
     }).catch(err => {
